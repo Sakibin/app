@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        h3 {
+            color: #333;
+            text-align: center;
+        }
+        
+        
+        #image-container {
+            
+            margin-top: 20px;
+            text-align: center;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 90%;
+            max-width: 400px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #4757FF;   
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #5a67d8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: 90%;
+            max-width: 200px;
+            box-sizing: border-box;
+        }
+        img {
+            max-width: 90%;
+            height: auto;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+        /* Responsive styling */
+        @media (max-width: 600px) {
+            input, button {
+                font-size: 14px;
+                padding: 8px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h3>Ai Image generation🪄<h3>
+    <input type="text" id="prompt" placeholder="Enter a prompt...">
+    <button onclick="generateImage()">Create Image</button>
+    <div id="image-container"></div>
+
+    <script>
+        function generateImage() {
+            const prompt = document.getElementById('prompt').value;
+            const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}`;
+            const imgContainer = document.getElementById('image-container');
+
+            // Clear previous image
+            imgContainer.innerHTML = '';
+
+            // Create image element
+            const img = document.createElement('img');
+            img.src = url;
+            img.alt = prompt;
+            
+            // Append image to the container
+            imgContainer.appendChild(img);
+        }
+    </script>
+</body>
+</html>

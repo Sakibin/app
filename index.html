@@ -1,0 +1,367 @@
+<!-- public/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register & Login</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:"Poppins",sans-serif;
+        }
+        body{
+            background-color: #c9d6ff;
+            background:linear-gradient(to right,#e2e2e2,#c9d6ff);
+        }
+        .container{
+            top: 100px;
+            position: relative;
+            background:#fff;
+            width:600px; /* Increased container size */
+            padding:2.5rem;
+            margin:50px auto;
+            border-radius:10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        form{
+            margin:0 2rem;
+        }
+        .form-title{
+            font-size:1.5rem;
+            font-weight:bold;
+            text-align:center;
+            padding:1.3rem;
+            margin-bottom:0.4rem;
+        }
+        input{
+            color:inherit;
+            width:100%;
+            background-color:transparent;
+            border:none;
+            border-bottom:1px solid #757575;
+            padding-left:1.5rem;
+            font-size:15px;
+        }
+        .input-group{
+            padding:1% 0;
+            position:relative;
+        }
+        .input-group i{
+            position:absolute;
+            top:50%;
+            transform:translateY(-50%);
+            left:0;
+            color:black;
+        }
+        input:focus{
+            background-color: transparent;
+            outline:transparent;
+            border-bottom:2px solid hsl(327,90%,28%);
+        }
+        input::placeholder{
+            color:transparent;
+        }
+        label{
+            color:#757575;
+            position:relative;
+            left:1.5rem;
+            top:-1.3em;
+            cursor:auto;
+            transition:0.3s ease all;
+            pointer-events: none;
+        }
+        input:focus ~ label,
+        input:not(:placeholder-shown) ~ label{
+            top:-3em;
+            color:hsl(327,90%,28%);
+            font-size:15px;
+        }
+        .recover{
+            text-align:right;
+            font-size:1rem;
+            margin-bottom:1rem;
+        }
+        .recover a{
+            text-decoration:none;
+            color:rgb(125,125,235);
+        }
+        .recover a:hover{
+            color:blue;
+            text-decoration:underline;
+        }
+        button{
+            font-size:1.1rem;
+            padding:8px 0;
+            border-radius:5px;
+            outline:none;
+            border:none;
+            width:100%;
+            background:rgb(125,125,235);
+            color:white;
+            cursor:pointer;
+            transition:0.3s;
+        }
+        button:hover{
+            background:#07001f;
+        }
+        .or{
+            font-size:1.1rem;
+            margin-top:0.5rem;
+            text-align:center;
+        }
+        .icons{
+            text-align:center;
+        }
+        .icons i{
+            color:rgb(125,125,235);
+            padding:0.8rem 1.5rem;
+            border-radius:10px;
+            font-size:1.5rem;
+            cursor:pointer;
+            border:2px solid #dfe9f5;
+            margin:0 15px;
+            transition:1s;
+        }
+        .icons i:hover{
+            background:#07001f;
+            color:white;
+            font-size:1.6rem;
+            border:2px solid rgb(125,125,235);
+        }
+        .links{
+            display:flex;
+            justify-content:space-around;
+            padding:0 4rem;
+            margin-top:0.9rem;
+            font-weight:bold;
+        }
+        #signUpButton, #signInButton{
+            color:rgb(125,125,235);
+            border:none;
+            background-color:transparent;
+            font-size:1rem;
+            font-weight:bold;
+            cursor: pointer;
+        }
+        #signUpButton:hover, #signInButton:hover {
+            text-decoration:underline;
+            color:blue;
+        } 
+        .messageDiv{
+            background-color:hsl(327,90%,28%);
+            color:white;
+            padding:10px 20px;
+            margin:10px 0;
+            border-radius: 5px;
+            font-size:1rem;
+            opacity:0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .messageDiv.show{
+            opacity:1;
+        }
+
+        /* Responsive adjustments for mobile devices */
+        @media only screen and (max-width: 768px) {
+            .container{
+                width:400px; /* Increased width for tablets */
+                padding:1.5rem;
+                margin:30px auto;
+            }
+            .form-title{
+                font-size:1.3rem;
+                padding:1rem;
+            }
+            .icons i{
+                font-size:1.3rem;
+                padding:0.6rem 1rem;
+            }
+            .links{
+                padding:0 2rem;
+                justify-content: center; /* Center links */
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .container{
+                width:90%; /* Full width on mobile devices */
+                max-width: 350px; /* Max width for mobile devices */
+                padding:0.8rem;
+                margin:20px auto;
+            }
+            .form-title{
+                font-size:1.2rem;
+                padding:0.8rem;
+            }
+            input{
+                font-size:14px;
+                padding-left:1rem;
+            }
+            button{
+                font-size:1rem;
+                padding:6px 0;
+            }
+            .icons i{
+                font-size:1.1rem;
+                padding:0.5rem 0.8rem;
+            }
+            .links{
+                padding:0 1rem;
+                justify-content: center; /* Center links */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Signup Container -->
+    <div class="container" id="signup" style="display:none;">
+      <h1 class="form-title">Register</h1>
+      <form id="signupForm">
+        <div id="signUpMessage" class="messageDiv"></div>
+        <div class="input-group">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="rEmail" placeholder="Email" required>
+            <label for="rEmail">Email</label>
+        </div>
+        <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="rPassword" placeholder="Password" required>
+            <label for="rPassword">Password</label>
+        </div>
+        <button type="submit" class="btn" id="submitSignUp">Sign Up</button>
+      </form>
+      <div class="links">
+        <p>Already have an account?</p>
+        <button id="signInButton">Sign In</button>
+      </div>
+    </div>
+
+    <!-- Signin Container -->
+    <div class="container" id="signIn">
+        <h1 class="form-title">Sign In</h1>
+        <form id="loginForm">
+          <div id="signInMessage" class="messageDiv"></div>
+          <div class="input-group">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="emailLogin" placeholder="Email" required>
+              <label for="emailLogin">Email</label>
+          </div>
+          <div class="input-group">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="passwordLogin" placeholder="Password" required>
+              <label for="passwordLogin">Password</label>
+          </div>
+          <p class="recover">
+            <a href="#">Recover Password</a>
+          </p>
+          <button type="submit" class="btn" id="submitSignIn">Sign In</button>
+        </form>
+        <div class="links">
+          <p>Don't have an account yet?</p>
+          <button id="signUpButton">Sign Up</button>
+        </div>
+    </div>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyC9oOgsN0IE5vw48dnp1n4SykPSQsL8lSw",
+          authDomain: "sakibin-75f62.firebaseapp.com",
+          projectId: "sakibin-75f62",
+          storageBucket: "sakibin-75f62.appspot.com",
+          messagingSenderId: "732867500543",
+          appId: "1:732867500543:web:96df65624c7897c106efca",
+          measurementId: "G-BGGNPS1N1X"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // DOM Elements
+        const signupContainer = document.getElementById('signup');
+        const signInContainer = document.getElementById('signIn');
+        const signUpButton = document.getElementById('signUpButton');
+        const signInButton = document.getElementById('signInButton');
+
+        // Show Signup Form
+        signUpButton.addEventListener('click', () => {
+            signInContainer.style.display = 'none';
+            signupContainer.style.display = 'block';
+        });
+
+        // Show Signin Form
+        signInButton.addEventListener('click', () => {
+            signupContainer.style.display = 'none';
+            signInContainer.style.display = 'block';
+        });
+
+        // Initially show Signin form
+        window.onload = () => {
+            signInContainer.style.display = 'block';
+            signupContainer.style.display = 'none';
+        };
+
+        // Handle Signup
+        const signupForm = document.getElementById('signupForm');
+        signupForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          const email = document.getElementById('rEmail').value;
+          const password = document.getElementById('rPassword').value;
+          const signUpMessage = document.getElementById('signUpMessage');
+
+          try {
+            const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+            signUpMessage.textContent = `User ${userCredential.user.email} signed up successfully!`;
+            signUpMessage.classList.add('show');
+            signupForm.reset();
+            setTimeout(() => signUpMessage.classList.remove('show'), 7000);
+          } catch (error) {
+            signUpMessage.textContent = `Error: ${error.message}`;
+            signUpMessage.classList.add('show');
+            setTimeout(() => signUpMessage.classList.remove('show'), 7000);
+          }
+        });
+
+        // Handle Login
+        const loginForm = document.getElementById('loginForm');
+        loginForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          const email = document.getElementById('emailLogin').value;
+          const password = document.getElementById('passwordLogin').value;
+          const signInMessage = document.getElementById('signInMessage');
+
+          try {
+            const userCredential = await auth.signInWithEmailAndPassword(email, password);
+            signInMessage.textContent = `User ${userCredential.user.email} logged in successfully!`;
+            signInMessage.classList.add('show');
+            loginForm.reset();
+            setTimeout(() => signInMessage.classList.remove('show'), 7000);
+          } catch (error) {
+            signInMessage.textContent = `Error: ${error.message}`;
+            signInMessage.classList.add('show');
+            setTimeout(() => signInMessage.classList.remove('show'), 7000);
+          }
+        });
+
+        // Optional: Handle Auth State Changes
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                console.log(`User ${user.email} is logged in.`);
+                // You can redirect the user or perform other actions here
+            } else {
+                console.log('No user is logged in.');
+            }
+        });
+    </script>
+</body>
+</html>
