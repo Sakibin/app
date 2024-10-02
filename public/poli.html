@@ -66,11 +66,6 @@
         .download-btn:hover {
             background-color: #4c51bf;
         }
-        .countdown {
-            margin-top: 10px;
-            font-size: 18px;
-            color: #555;
-        }
         .hidden {
             display: none;
         }
@@ -87,7 +82,7 @@
     </style>
 </head>
 <body>
-    <h3>Ai Image generation🪄</h3>
+    <h3>AI Image Generation 🪄</h3>
     <input type="text" id="prompt" placeholder="Enter a prompt...">
     <button onclick="generateImage()">Create Image</button>
     <div id="image-container"></div>
@@ -99,7 +94,7 @@
             const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}`;
             const imgContainer = document.getElementById('image-container');
 
-            // Clear previous image
+            // Clear previous image and button
             imgContainer.innerHTML = '';
 
             // Create image element
@@ -123,34 +118,21 @@
             downloadButton.textContent = 'Download Image';
             imgContainer.appendChild(downloadButton);
 
-            // Create countdown element
-            const countdownElement = document.createElement('div');
-            countdownElement.classList.add('countdown', 'hidden');
-            countdownElement.innerHTML = 'Downloading in <span id="countdownNumber">5</span> seconds...';
-            imgContainer.appendChild(countdownElement);
-
-            // Add download functionality with countdown
-            downloadButton.addEventListener('click', () => startDownloadCountdown(imageUrl, countdownElement));
+            // Add download functionality
+            downloadButton.addEventListener('click', () => downloadImage(imageUrl));
         }
 
-        function startDownloadCountdown(imageUrl, countdownElement) {
-            let countdown = 5;
-            const countdownNumber = countdownElement.querySelector('#countdownNumber');
-            countdownElement.classList.remove('hidden'); // Show the countdown text
-
-            const countdownInterval = setInterval(() => {
-                countdown--;
-                countdownNumber.textContent = countdown;
-
-                if (countdown === 0) {
-                    clearInterval(countdownInterval);
-                    countdownElement.classList.add('hidden'); // Hide countdown after 5 seconds
-                    downloadImage(imageUrl);
-                }
-            }, 1000); // 1 second interval
+        function generateRandomFilename(length) {
+            const characters = 'abcde';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return `${result}.png`;
         }
 
         function downloadImage(imageUrl) {
+            const randomFilename = generateRandomFilename(5); // Generate a random filename of length 5
             axios({
                 url: imageUrl,
                 method: 'GET',
@@ -160,7 +142,7 @@
                 const url = window.URL.createObjectURL(new Blob([response.data]));
                 const a = document.createElement('a');
                 a.href = url;
-                a.setAttribute('download', 'generated-image.png'); // Set the filename
+                a.setAttribute('download', randomFilename); // Use the generated filename
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
