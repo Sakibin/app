@@ -19,10 +19,7 @@
             color: #333;
             text-align: center;
         }
-        
-        
         #image-container {
-            
             margin-top: 20px;
             text-align: center;
         }
@@ -54,24 +51,48 @@
             margin-top: 20px;
             border-radius: 10px;
         }
+        .download-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #5a67d8;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .download-btn:hover {
+            background-color: #4c51bf;
+        }
+        .countdown {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #555;
+        }
+        .hidden {
+            display: none;
+        }
         /* Responsive styling */
         @media (max-width: 600px) {
             input, button {
                 font-size: 14px;
                 padding: 8px;
             }
-            h1 {
+            h3 {
                 font-size: 24px;
             }
         }
     </style>
 </head>
 <body>
-    <h3>Ai Image generation🪄<h3>
+    <h3>Ai Image generation🪄</h3>
     <input type="text" id="prompt" placeholder="Enter a prompt...">
     <button onclick="generateImage()">Create Image</button>
     <div id="image-container"></div>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         function generateImage() {
             const prompt = document.getElementById('prompt').value;
@@ -85,9 +106,68 @@
             const img = document.createElement('img');
             img.src = url;
             img.alt = prompt;
-            
+
             // Append image to the container
             imgContainer.appendChild(img);
+
+            // Show download button
+            createDownloadButton(url);
+        }
+
+        function createDownloadButton(imageUrl) {
+            const imgContainer = document.getElementById('image-container');
+
+            // Create download button
+            const downloadButton = document.createElement('button');
+            downloadButton.classList.add('download-btn');
+            downloadButton.textContent = 'Download Image';
+            imgContainer.appendChild(downloadButton);
+
+            // Create countdown element
+            const countdownElement = document.createElement('div');
+            countdownElement.classList.add('countdown', 'hidden');
+            countdownElement.innerHTML = 'Downloading in <span id="countdownNumber">5</span> seconds...';
+            imgContainer.appendChild(countdownElement);
+
+            // Add download functionality with countdown
+            downloadButton.addEventListener('click', () => startDownloadCountdown(imageUrl, countdownElement));
+        }
+
+        function startDownloadCountdown(imageUrl, countdownElement) {
+            let countdown = 5;
+            const countdownNumber = countdownElement.querySelector('#countdownNumber');
+            countdownElement.classList.remove('hidden'); // Show the countdown text
+
+            const countdownInterval = setInterval(() => {
+                countdown--;
+                countdownNumber.textContent = countdown;
+
+                if (countdown === 0) {
+                    clearInterval(countdownInterval);
+                    countdownElement.classList.add('hidden'); // Hide countdown after 5 seconds
+                    downloadImage(imageUrl);
+                }
+            }, 1000); // 1 second interval
+        }
+
+        function downloadImage(imageUrl) {
+            axios({
+                url: imageUrl,
+                method: 'GET',
+                responseType: 'blob' // Important: handle the response as a binary blob
+            })
+            .then(response => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const a = document.createElement('a');
+                a.href = url;
+                a.setAttribute('download', 'generated-image.png'); // Set the filename
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            })
+            .catch(error => {
+                console.error('Error downloading image:', error);
+            });
         }
     </script>
 </body>
