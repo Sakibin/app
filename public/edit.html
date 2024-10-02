@@ -128,7 +128,17 @@
       }, 1000); // 1 second interval
     }
 
+    function generateRandomFilename(length) {
+      const characters = 'abcde';
+      let result = '';
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+      return `${result}.png`;
+    }
+
     function downloadImage(imageUrl) {
+      const randomFilename = generateRandomFilename(5); // Generate a random filename of length 5
       axios({
         url: `/imgdl?url=${encodeURIComponent(imageUrl)}`,
         method: 'GET',
@@ -138,7 +148,7 @@
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const a = document.createElement('a');
         a.href = url;
-        a.setAttribute('download', 'generated-image.png'); // Set the filename
+        a.setAttribute('download', randomFilename); // Use the generated filename
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
