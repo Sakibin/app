@@ -21,281 +21,469 @@
 
   <!-- CSS Styles -->
   <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:"Poppins", sans-serif;
+    :root {
+      --primary: #6366f1;
+      --secondary: #4f46e5;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --background: #0f172a;
+      --surface: #1e293b;
+      --text: #f8fafc;
+      --text-secondary: #94a3b8;
+      --border: #334155;
     }
-    body{
-      background-color: #c9d6ff;
-      background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: var(--background);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
     }
-    .container{
+
+    .container {
       position: relative;
-      background:#fff;
-      width:600px; /* Increased container size */
-      padding:2.5rem;
-      margin:50px auto;
-      border-radius:10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      background: var(--surface);
+      width: 600px; /* Increased container size */
+      padding: 2.5rem;
+      margin: 50px auto;
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
       display: none; /* Initially hidden */
     }
+
     /* Display the signup container by default */
     #signup {
       display: block;
     }
-    form{
-      margin:0 2rem;
+
+    form {
+      margin: 0 2rem;
     }
-    .form-title{
-      font-size:1.5rem;
-      font-weight:bold;
-      text-align:center;
-      padding:1.3rem;
-      margin-bottom:0.4rem;
+
+    .form-title {
+      color: var(--text);
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 2rem;
     }
-    input{
-      color:inherit;
-      width:100%;
-      background-color:transparent;
-      border:none;
-      border-bottom:1px solid #757575;
-      padding-left:1.5rem;
-      font-size:15px;
+
+    .input-group {
+      margin-bottom: 1.5rem;
+      position: relative;
     }
-    .input-group{
-      padding:1% 0;
-      position:relative;
-    }
-    .input-group i{
-      position:absolute;
-      top:50%;
+
+    .input-group i {
+      position: absolute;
+      top: 50%;
       transform: translateY(-50%);
-      left:10px;
-      color:black;
+      left: 1rem;
+      color: var(--text-secondary);
     }
-    input:focus{
-      background-color: transparent;
-      outline:transparent;
-      border-bottom:2px solid hsl(327,90%,28%);
+
+    input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 3rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      color: var(--text);
+      font-size: 1rem;
+      transition: all 0.3s;
     }
-    input::placeholder{
-      color:transparent;
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
     }
-    label{
-      color:#757575;
-      position:relative;
-      left:1.2em;
-      top:-1.3em;
-      cursor:auto;
-      transition:0.3s ease all;
+
+    label {
+      position: absolute;
+      left: 3rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      transition: all 0.3s;
       pointer-events: none;
     }
+
     input:focus ~ label,
-    input:not(:placeholder-shown) ~ label{
-      top:-3em;
-      color:hsl(327,90%,28%);
-      font-size:15px;
+    input:not(:placeholder-shown) ~ label {
+      top: 0;
+      left: 0.8rem;
+      font-size: 0.8rem;
+      color: var(--primary);
+      background: var(--surface);
+      padding: 0 0.5rem;
     }
-    .recover{
-      text-align:right;
-      font-size:1rem;
-      margin-bottom:1rem;
+
+    .recover {
+      text-align: right;
+      margin-bottom: 1.5rem;
     }
-    .recover a{
-      text-decoration:none;
-      color:rgb(125,125,235);
+
+    .recover a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
     }
-    .recover a:hover{
-      color:blue;
-      text-decoration:underline;
+
+    .recover a:hover {
+      color: var(--primary);
     }
-    button{
-      font-size:1.1rem;
-      padding:8px 0;
-      border-radius:5px;
-      outline:none;
-      border:none;
-      width:100%;
-      background:rgb(125,125,235);
-      color:white;
-      cursor:pointer;
-      transition: background 0.3s, transform 0.3s;
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 0.5rem;
+      background: var(--primary);
+      color: var(--text);
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
     }
-    button:hover{
-      background:#07001f;
+
+    button:hover {
+      background: var(--secondary);
       transform: translateY(-2px);
     }
-    .or{
-      font-size:1.1rem;
-      margin-top:0.5rem;
-      text-align:center;
+
+    .links {
+      margin-top: 1.5rem;
+      text-align: center;
+      color: var(--text-secondary);
     }
-    .icons{
-      text-align:center;
-      margin-top: 10px;
-    }
-    .icons i{
-      color:rgb(125,125,235);
-      padding:0.8rem 1.5rem;
-      border-radius:10px;
-      font-size:1.5rem;
-      cursor:pointer;
-      border:2px solid #dfe9f5;
-      margin:0 15px;
-      transition:1s;
-    }
-    .icons i:hover{
-      background:#07001f;
-      font-size:1.6rem;
-      border:2px solid rgb(125,125,235);
-    }
-    .links{
-      display:flex;
-      justify-content:space-around;
-      padding:0 4rem;
-      margin-top:0.9rem;
-      font-weight:bold;
-    }
-    #signUpButton, #signInButton{
-      color:rgb(125,125,235);
-      border:none;
-      background-color:transparent;
-      font-size:1rem;
-      font-weight:bold;
+
+    #signUpButton, #signInButton {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-weight: 500;
       cursor: pointer;
+      padding: 0;
+      margin-left: 0.5rem;
     }
+
     #signUpButton:hover, #signInButton:hover {
-      text-decoration:underline;
-      color:blue;
-    } 
-    .messageDiv{
-      background-color:hsl(327,90%,28%);
-      color:white;
-      padding:10px 20px;
-      margin:10px;
-      border-radius: 5px;
-      font-size:1rem;
-      opacity:0;
-      animation:fadeOut 7s forwards;
+      color: var(--secondary);
+      transform: none;
     }
 
-    /* Keyframes for fade out animation */
+    .messageDiv {
+      background: var(--primary);
+      color: var(--text);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      opacity: 0;
+      animation: fadeOut 7s forwards;
+    }
+
     @keyframes fadeOut {
-      from { opacity: 1; }
-      to { opacity: 0; }
+      0% { opacity: 1; }
+      70% { opacity: 1; }
+      100% { opacity: 0; }
     }
 
-    /* Responsive adjustments for mobile devices */
-    @media only screen and (max-width: 768px) {
-      .container{
-        width:400px; /* Increased width for tablets */
-        padding:1.5rem;
-        margin:30px auto;
-      }
-      .form-title{
-        font-size:1.3rem;
-        padding:1rem;
-      }
-      .icons i{
-        font-size:1.3rem;
-        padding:0.6rem 1rem;
-      }
-      .links{
-        padding:0 2rem;
-        justify-content: center; /* Center links */
-      }
+    /* Server Card Styles */
+    .server-card {
+      background: var(--surface);
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      padding: 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      animation: fadeIn 0.5s ease-out;
     }
 
-    @media only screen and (max-width: 480px) {
-      .container{
-        width:90%; /* Full width on mobile devices */
-        max-width: 350px; /* Max width for mobile devices */
-        padding:0.8rem;
-        margin:20px auto;
-      }
-      .form-title{
-        font-size:1.2rem;
-        padding:0.8rem;
-      }
-      input{
-        font-size:14px;
-        padding-left:1rem;
-      }
-      button{
-        font-size:1rem;
-        padding:6px 0;
-      }
+    .server-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--primary);
+      border-radius: 20px;
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: var(--text);
+      transition: transform 0.3s ease;
+    }
 
-      i {
+    .server-card:hover .server-icon {
+      transform: scale(1.1);
+    }
 
-        margin-left: 170px; /* Moves the icon 10px to the right */
-        margin-top: -11px;   /
-        font-size: 1.1rem;
-        padding: 0.5rem 1.8rem;
-      }
-      .links{
-        padding:0 1rem;
-        justify-content: center; /* Center links */
-      }
+    .server-name {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Update container styles to accommodate server card */
+    .auth-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    /* Responsive Design */
+    @media screen and (min-width: 1200px) {
+        .container {
+            width: 500px;
+        }
+    }
+
+    @media screen and (max-width: 1199px) and (min-width: 992px) {
+        .container {
+            width: 450px;
+        }
+    }
+
+    @media screen and (max-width: 991px) and (min-width: 768px) {
+        .container {
+            width: 400px;
+        }
+        
+        form {
+            margin: 0 1.5rem;
+        }
+    }
+
+    @media screen and (max-width: 767px) {
+        .container {
+            width: 90%;
+            max-width: 400px;
+            padding: 1.5rem;
+            margin: 20px auto;
+        }
+
+        form {
+            margin: 0 1rem;
+        }
+
+        .form-title {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        input {
+            font-size: 14px;
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
+        }
+
+        .input-group i {
+            font-size: 1rem;
+            left: 0.8rem;
+        }
+
+        label {
+            left: 2.5rem;
+            font-size: 14px;
+        }
+
+        input:focus ~ label,
+        input:not(:placeholder-shown) ~ label {
+            left: 0.5rem;
+            font-size: 12px;
+        }
+
+        button {
+            padding: 0.6rem;
+            font-size: 14px;
+        }
+
+        .recover {
+            font-size: 13px;
+            margin-bottom: 1rem;
+        }
+
+        .links {
+            margin-top: 1rem;
+            font-size: 14px;
+        }
+
+        #signUpButton, #signInButton {
+            font-size: 14px;
+        }
+
+        .messageDiv {
+            padding: 0.8rem;
+            font-size: 13px;
+            margin-bottom: 1rem;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .container {
+            width: 95%;
+            padding: 1rem;
+        }
+
+        form {
+            margin: 0 0.5rem;
+        }
+
+        .form-title {
+            font-size: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        input {
+            font-size: 13px;
+            padding: 0.5rem 1rem 0.5rem 2.2rem;
+        }
+
+        .input-group i {
+            font-size: 0.9rem;
+            left: 0.7rem;
+        }
+
+        label {
+            left: 2.2rem;
+            font-size: 13px;
+        }
+
+        .messageDiv {
+            padding: 0.7rem;
+            font-size: 12px;
+        }
+    }
+
+    @media screen and (max-width: 320px) {
+        .container {
+            width: 100%;
+            padding: 0.8rem;
+        }
+
+        .form-title {
+            font-size: 1.1rem;
+        }
+
+        input {
+            font-size: 12px;
+        }
+
+        .links {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .links p, #signUpButton, #signInButton {
+            font-size: 13px;
+        }
+    }
+
+    /* Handle height-based media queries for shorter screens */
+    @media screen and (max-height: 600px) {
+        .container {
+            margin: 10px auto;
+            padding: 1rem;
+        }
+
+        .form-title {
+            margin-bottom: 1rem;
+        }
+
+        .input-group {
+            margin-bottom: 0.8rem;
+        }
+
+        .recover {
+            margin-bottom: 0.8rem;
+        }
     }
   </style>
 </head>
 <body>
+    <div class="auth-container">
+        <!-- Add Server Card -->
+        <div class="server-card">
+            <div class="server-icon">
+                <i class="fas fa-server"></i>
+            </div>
+            <h2 class="server-name">Sakibin Server</h2>
+        </div>
 
-  <!-- Register Container -->
-  <div class="container" id="signup">
-    <h1 class="form-title">Register</h1>
-    <form id="signupForm">
-      <div id="signUpMessage" class="messageDiv" style="display:none;"></div>
-      <div class="input-group">
-          <i class="fas fa-envelope"></i>
-          <input type="email"  id="rEmail" name="email" placeholder="Email" required>
-          <label for="rEmail">Email</label>
-      </div>
-      <div class="input-group">
-          <i class="fas fa-lock"></i>
-          <input type="password" id="rPassword" name="password" placeholder="Password" required>
-          <label for="rPassword">Password</label>
-      </div>
-      <button type="submit" class="btn" id="submitSignUp">Sign Up</button>
-    </form>
-    <div class="links">
-      <p>Already Have Account?</p>
-      <button id="signInButton">Sign In</button>
+        <!-- Register Container -->
+        <div class="container" id="signup">
+            <h1 class="form-title">Register</h1>
+            <form id="signupForm">
+              <div id="signUpMessage" class="messageDiv" style="display:none;"></div>
+              <div class="input-group">
+                  <i class="fas fa-envelope"></i>
+                  <input type="email"  id="rEmail" name="email" placeholder="Email" required>
+                  <label for="rEmail">Email</label>
+              </div>
+              <div class="input-group">
+                  <i class="fas fa-lock"></i>
+                  <input type="password" id="rPassword" name="password" placeholder="Password" required>
+                  <label for="rPassword">Password</label>
+              </div>
+              <button type="submit" class="btn" id="submitSignUp">Sign Up</button>
+            </form>
+            <div class="links">
+              <p>Already Have Account?</p>
+              <button id="signInButton">Sign In</button>
+            </div>
+          </div>
+    
+          <!-- Sign In Container -->
+          <div class="container" id="signIn">
+            <h1 class="form-title">Sign In</h1>
+            <form id="loginForm">
+              <div id="signInMessage" class="messageDiv" style="display:none;"></div>
+              <div class="input-group">
+                  <i class="fas fa-envelope"></i>
+                  <input type="email"  id="emailLogin" name="email" placeholder="Email" required>
+                  <label for="emailLogin">Email</label>
+              </div>
+              <div class="input-group">
+                  <i class="fas fa-lock"></i>
+                  <input type="password" id="passwordLogin" name="password" placeholder="Password" required>
+                  <label for="passwordLogin">Password</label>
+              </div>
+              <p class="recover">
+                <a href="#">Recover Password</a>
+              </p>
+              <button type="submit" class="btn" id="submitSignIn">Sign In</button>
+            </form>
+            <div class="links">
+              <p>Don't have an account yet?</p>
+              <button id="signUpButton">Sign Up</button>
+            </div>
+          </div>
     </div>
-  </div>
-
-  <!-- Sign In Container -->
-  <div class="container" id="signIn">
-    <h1 class="form-title">Sign In</h1>
-    <form id="loginForm">
-      <div id="signInMessage" class="messageDiv" style="display:none;"></div>
-      <div class="input-group">
-          <i class="fas fa-envelope"></i>
-          <input type="email"  id="emailLogin" name="email" placeholder="Email" required>
-          <label for="emailLogin">Email</label>
-      </div>
-      <div class="input-group">
-          <i class="fas fa-lock"></i>
-          <input type="password" id="passwordLogin" name="password" placeholder="Password" required>
-          <label for="passwordLogin">Password</label>
-      </div>
-      <p class="recover">
-        <a href="#">Recover Password</a>
-      </p>
-      <button type="submit" class="btn" id="submitSignIn">Sign In</button>
-    </form>
-    <div class="links">
-      <p>Don't have an account yet?</p>
-      <button id="signUpButton">Sign Up</button>
-    </div>
-  </div>
 
   <!-- Firebase Configuration and Scripts -->
   <script>

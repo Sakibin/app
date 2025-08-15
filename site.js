@@ -1,6 +1,4 @@
-// app.js
-const { alldown } = require('nayan-media-downloader');
-const { ephoto, gpt } = require('nayan-server');
+
 const axios = require('axios');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -28,7 +26,7 @@ admin.initializeApp({
 });
 
 const app = express();
-const port = 3000;
+const port = 3025;
 
 // Middleware
 app.use(bodyParser.json());

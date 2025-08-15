@@ -1,153 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<link rel="icon" href=
-"https://i.ibb.co.com/K97LhLJ/received-1803572103387568.jpg"
-        type="image/x-icon" />
-      
-    
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>TikTok Video Downloader</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Downloader</title>
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/9433/9433110.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #4f46e5;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --text: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom, #3300cc, #ff00ff);
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            height: 100vh;
-            color: #fff;
-            overflow: hidden;
+            flex-direction: column;
         }
+
         .container {
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-            width: 90%;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
         }
+
+        .card {
+            background: var(--surface);
+            border-radius: 1rem;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .card-header h1 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
         .input-container {
             position: relative;
-            display: inline-block;
-            width: 80%;
+            margin-bottom: 1.5rem;
         }
-        input[type="text"] {
-            width: calc(100% - 10px); /* Adjust input width to make space for the paste button */
-            padding: 10px;
-            border: 1px solid black;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            box-sizing: border-box;
+
+        .input-container input {
+            width: 100%;
+            padding: 1rem;
+            padding-right: 4rem;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--text);
+            font-size: 1rem;
         }
-        button.paste-button {
+
+        .paste-button {
             position: absolute;
-            right: -10px;
-            top: 0;
-            padding: 11px 15px;
-            background-color: #695CFE;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary);
+            color: var(--text);
             border: none;
-            border-radius: 0 5px 5px 0;
-            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
             cursor: pointer;
+            transition: all 0.3s;
         }
-        button.paste-button:hover {
-            background-color: #ff00ff;
+
+        .paste-button:hover {
+            background: var(--secondary);
         }
-        button {
-            padding: 10px 20px;
-            background-color: #695CFE;
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            background: var(--primary);
+            color: var(--text);
             border: none;
-            border-radius: 5px;
-            color: #fff;
+            border-radius: 0.5rem;
+            font-weight: 500;
             cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 1rem;
         }
-        button:hover {
-            background-color: #ff00ff;
+
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
         }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+        }
+
         .quality-buttons {
             display: none;
-            margin-top: 10px;
+            gap: 1rem;
+            margin-top: 1rem;
         }
-        .quality-buttons button {
-            margin: 5px;
-        }
+
         .info {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #fff;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 0.5rem;
+            border: 1px solid var(--primary);
         }
-        .support-button {
-            position: absolute;
-            bottom: 130px;
-            right: 135px;
-            background-color: #695CFE;
-            border: none;
-            border-radius: 5%;
-            padding: 30px;
-            color: #fff;
-            cursor: pointer;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-            font-size: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+
+        .info p {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
         }
-        .support-button:hover {
-            background-color: #fff;
-            color: black;
+
+        .info p:last-child {
+            margin-bottom: 0;
         }
+
         .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+            margin-top: auto;
             text-align: center;
-            padding: 10px;
-            background-color: rgba(0, 0, 0, 0.1);
-            font-size: 14px;
+            padding: 1.5rem;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+
+            .card-header h1 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h3>Video Downloader can download Facebook, TikTok, Instagram or more. Powered By Sakibin Sinha🪄</h3>
-        <div class="input-container">
-            <input type="text" id="video-url" placeholder="Paste a link">
-            <button class="paste-button" onclick="pasteText()">
-                <i class="fas fa-paste"></i> Paste
+        <div class="card">
+            <div class="card-header">
+                <h1><i class="fas fa-download"></i> Video Downloader</h1>
+                <p>Download videos from Facebook, TikTok, Instagram and more</p>
+            </div>
+
+            <div class="input-container">
+                <input type="text" id="video-url" placeholder="Paste video URL here...">
+                <button class="paste-button" onclick="pasteText()">
+                    <i class="fas fa-paste"></i>
+                </button>
+            </div>
+
+            <button class="btn" onclick="getDownloadLinks()">
+                <i class="fas fa-search"></i> Get Download Links
             </button>
-        </div>
-        <br>
-        <button onclick="getDownloadLinks()">
-            <i class="fas fa-download"></i> Download
-        </button>
-        <div class="quality-buttons" id="quality-buttons">
-            <button onclick="downloadLow()">
-                <i class="fas fa-cloud-download-alt"></i> Download Low Quality
-            </button>
-            <button onclick="downloadHigh()">
-                <i class="fas fa-cloud-download-alt"></i> Download High Quality
-            </button>
-        </div>
-        <div class="info">
-            <p>Supported platforms: TikTok, Facebook, Instagram, and more. 🎬, শুন ভুলেও sax ভিডিও লিংক দিস না🐸</p>
-            <p>Note: Video quality may vary depending on the source. 💫</p>
-            <p>Ensure the video link is accessible to retrieve download options. 🔗</p>
+
+            <div class="quality-buttons" id="quality-buttons">
+                <button class="btn btn-warning" onclick="downloadLow()">
+                    <i class="fas fa-download"></i> Download SD Quality
+                </button>
+                <button class="btn btn-success" onclick="downloadHigh()">
+                    <i class="fas fa-download"></i> Download HD Quality
+                </button>
+            </div>
+
+            <div class="info">
+                <p><i class="fas fa-info-circle"></i> Supported platforms: TikTok, Facebook, Instagram</p>
+                <p><i class="fas fa-exclamation-triangle"></i> Video quality depends on source availability</p>
+                <p><i class="fas fa-shield-alt"></i> Ensure the video link is publicly accessible</p>
+            </div>
         </div>
     </div>
 
-    <!-- Floating Support Button with Facebook link -->
-
-    <!-- Footer Section -->
-    <div class="footer">
-        <p>All rights reserved by Sakibin Sinha.</p>
-    </div>
+    <footer class="footer">
+        <p>Powered by Sakibin Sinha © 2024</p>
+    </footer>
 
     <script>
         function pasteText() {
